@@ -2,12 +2,12 @@
 
 namespace DotnetBackend.Core.Entities
 {
-    public class OTP: AuditableEntity<long>
+    public class OTP: AuditableEntity
     {
         public string Code { get; set; }
-        public Status Status { get; set; }
+        public Status Status { get; set; } = Status.UNUSED;
 
-        public Guid CustomerId { get; set; }
+        public long CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
     }
 }

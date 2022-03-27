@@ -3,7 +3,9 @@
     public enum Status
     {
         USED = 10,
-        UNUSED = 20
+        UNUSED = 20,
+        ACTIVE = 30,
+        INACTIVE = 40
     }
     public class Constants
     {

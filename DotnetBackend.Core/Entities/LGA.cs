@@ -2,7 +2,7 @@
 
 namespace DotnetBackend.Core.Entities
 {
-    public class LGA : Entity<int>
+    public class LGA : BaseEntity
     {
         public string Name { get; set; }
 

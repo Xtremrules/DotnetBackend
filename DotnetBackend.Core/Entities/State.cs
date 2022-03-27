@@ -2,7 +2,7 @@
 
 namespace DotnetBackend.Core.Entities
 {
-    public class State: Entity<int>
+    public class State: BaseEntity
     {
         public string Name { get; set; }
 
