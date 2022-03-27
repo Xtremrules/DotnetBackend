@@ -22,6 +22,7 @@ namespace DotnetBackend.Data.Repositories
         Task DeleteWhere(Expression<Func<T, bool>> expression, bool save = true);
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
         bool Any(Expression<Func<T, bool>> expression);
+        Task<int> Count();
         Task<int> CountWhere(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> AllIncludingAsync(params Expression<Func<T, object>>[] includeProperties);
         Task<IEnumerable<T>> AllAsync { get; }

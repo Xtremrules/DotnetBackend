@@ -1,12 +1,7 @@
 ﻿using DotnetBackend.Core.Entities.Abstracts;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotnetBackend.Data.Repositories.Implementations
 {
@@ -199,6 +194,11 @@ namespace DotnetBackend.Data.Repositories.Implementations
         public bool Any(Expression<Func<T, bool>> expression)
         {
             return entities.Any(expression);
+        }
+
+        public async Task<int> Count()
+        {
+            return await entities.Select(e => e.Id).CountAsync();
         }
 
         public async Task<int> CountWhere(Expression<Func<T, bool>> expression)
