@@ -5,4 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetBackend.Core\DotnetBackend.Core.csproj" />
+    <ProjectReference Include="..\DotnetBackend.Data\DotnetBackend.Data.csproj" />
+  </ItemGroup>
+
 </Project>
