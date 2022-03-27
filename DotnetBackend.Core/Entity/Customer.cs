@@ -10,5 +10,8 @@ namespace DotnetBackend.Core.Entity
         public string MiddleName { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsDeleted { get; set; }
+
+        public int StateID { get; set; }
+        public virtual State State { get; set; }
     }
 }

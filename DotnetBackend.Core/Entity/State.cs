@@ -7,5 +7,6 @@ namespace DotnetBackend.Core.Entity
         public string Name { get; set; }
 
         public virtual ICollection<LGA> LGAs { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }
