@@ -1,6 +1,6 @@
-﻿using DotnetBackend.Core.Entity.Abstract;
+﻿using DotnetBackend.Core.Entities.Abstracts;
 
-namespace DotnetBackend.Core.Entity
+namespace DotnetBackend.Core.Entities
 {
     public class State: Entity<int>
     {

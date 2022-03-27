@@ -1,4 +1,4 @@
-﻿namespace DotnetBackend.Core.Entity.Interface
+﻿namespace DotnetBackend.Core.Entities.Interfaces
 {
     public interface ISoftDelete
     {

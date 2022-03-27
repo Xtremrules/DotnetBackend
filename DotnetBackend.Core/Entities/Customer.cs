@@ -1,7 +1,7 @@
-﻿using DotnetBackend.Core.Entity.Abstract;
-using DotnetBackend.Core.Entity.Interface;
+﻿using DotnetBackend.Core.Entities.Abstracts;
+using DotnetBackend.Core.Entities.Interfaces;
 
-namespace DotnetBackend.Core.Entity
+namespace DotnetBackend.Core.Entities
 {
     public class Customer : AuditableEntity<Guid>, ISoftDelete
     {
@@ -11,7 +11,8 @@ namespace DotnetBackend.Core.Entity
         public string PhoneNumber { get; set; }
         public bool IsDeleted { get; set; }
 
-        public int StateID { get; set; }
+        public int StateId { get; set; }
         public virtual State State { get; set; }
+        public virtual ICollection<OTP> OTPs { get; set; }
     }
 }
