@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBackend.Core", "DotnetBackend.Core\DotnetBackend.Core.csproj", "{B0141702-F7F3-49A6-A9B9-0EE04AB67B3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBackend.Core", "DotnetBackend.Core\DotnetBackend.Core.csproj", "{B0141702-F7F3-49A6-A9B9-0EE04AB67B3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBackend.Data", "DotnetBackend.Data\DotnetBackend.Data.csproj", "{5D4C5BD8-0B4C-48FD-A045-5555647EA29F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBackend.Data", "DotnetBackend.Data\DotnetBackend.Data.csproj", "{5D4C5BD8-0B4C-48FD-A045-5555647EA29F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBackend.Service", "DotnetBackend.Service\DotnetBackend.Service.csproj", "{2617E2CA-0027-4A10-834B-6893FB1EFCAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBackend.Service", "DotnetBackend.Service\DotnetBackend.Service.csproj", "{2617E2CA-0027-4A10-834B-6893FB1EFCAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBackend.Root", "DotnetBackend.Root\DotnetBackend.Root.csproj", "{E5DAFA60-90CC-45DB-8CEC-C81448F39658}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBackend.Root", "DotnetBackend.Root\DotnetBackend.Root.csproj", "{E5DAFA60-90CC-45DB-8CEC-C81448F39658}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBackend.API", "DotnetBackend.API\DotnetBackend.API.csproj", "{9714B45E-79D9-42E8-BD47-0BA7F0213980}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBackend.API", "DotnetBackend.API\DotnetBackend.API.csproj", "{9714B45E-79D9-42E8-BD47-0BA7F0213980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
