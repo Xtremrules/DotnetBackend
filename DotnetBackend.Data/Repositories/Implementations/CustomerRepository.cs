@@ -1,8 +1,5 @@
 ﻿using DotnetBackend.Core.Entities;
-using DotnetBackend.Core.Entities.Abstracts;
-using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using System.Linq.Expressions;
 
 namespace DotnetBackend.Data.Repositories.Implementations

@@ -22,7 +22,7 @@ namespace DotnetBackend.Data
             modelBuilder.Entity<Customer>().HasIndex(x => x.PhoneNumber);
             modelBuilder.Entity<Customer>().HasIndex(x => x.LGAId);
 
-            modelBuilder.Entity<OTP>().HasIndex(x => x.Code);
+            modelBuilder.Entity<OTP>().HasIndex(x => x.HashOTPCode);
 
             modelBuilder.Entity<Customer>()
             .HasMany(x => x.OTPs)

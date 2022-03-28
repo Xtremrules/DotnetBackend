@@ -3,6 +3,8 @@ using DotnetBackend.Core.Entities;
 using DotnetBackend.Data.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace DotnetBackend.Service.Implementations
 {
@@ -22,13 +24,17 @@ namespace DotnetBackend.Service.Implementations
 
         public async Task<bool> SendOtp(OTPRequest oTPRequest)
         {
-            var code = await GenerateOTPCode(oTPRequest.PhoneNumber);
+            var code = await GenerateOTPCode();
+
+            var encryptCode = await GenerateCodeEncrypt(code, oTPRequest.PhoneNumber);
+
+            logger.LogInformation($"OTP Code: {code}, enc: {encryptCode}");
 
             var sentCode = await sendOTP(code, oTPRequest.PhoneNumber);
 
             var otp = new OTP()
             {
-                Code = code,
+                HashOTPCode = encryptCode,
                 CustomerId = oTPRequest.CustomerId
             };
 
@@ -37,9 +43,28 @@ namespace DotnetBackend.Service.Implementations
             return true;
         }
 
+        private async Task<string> GenerateCodeEncrypt(string code, string phoneNumber)
+        {
+            return await Task<string>.Factory.StartNew(() =>
+            {
+                var compination = string.Concat(code, phoneNumber);
+                var sourceByte = Encoding.ASCII.GetBytes(compination);
+                var data = SHA256.HashData(sourceByte);
+
+                int i;
+                StringBuilder sOutput = new StringBuilder(data.Length);
+                for (i = 0; i < data.Length; i++)
+                {
+                    sOutput.Append(data[i].ToString("X2"));
+                }
+                return sOutput.ToString();
+            });
+        }
+
         public async Task<bool> ValidateOtp(OTPValidateRequest oTPValidateRequest)
         {
-            var otp = await otpRepository.GetSingleWhere(x => x.Code.Equals(oTPValidateRequest.code)
+            var encryptCode = await GenerateCodeEncrypt(oTPValidateRequest.code, oTPValidateRequest.PhoneNumber);
+            var otp = await otpRepository.GetSingleWhere(x => x.HashOTPCode.Equals(encryptCode)
             && x.CustomerId == oTPValidateRequest.CustomerId && x.Status == Core.Status.UNUSED);
 
             if(otp == null)
@@ -65,14 +90,11 @@ namespace DotnetBackend.Service.Implementations
             return true;
         }
 
-        private async Task<string> GenerateOTPCode(string phoneNumber)
+        private async Task<string> GenerateOTPCode()
         {
             return await Task<string>.Factory.StartNew(() =>
             {
-                //int studCount = DbContext.Candidates.Count(x => x.RegNo.Contains(RegnoPrefix));
-                //string studentCount = formartNumber(++studCount);
-                //string regno = RegnoPrefix + "/" + studentCount;
-                return "000000";
+                return JEncrpt.GetOTP(6);
             });
         }
 
