@@ -38,14 +38,18 @@ namespace DotnetBackend.Service.Implementations
                 IsDeleted = customer.IsDeleted,
                 MiddleName = customer.MiddleName,
                 PhoneNumber = customer.PhoneNumber,
-                Status = customer.Status
+                Status = customer.Status,
+                LGAId = customer.LGAId
             };
             return @return;
         }
 
         public async Task<CustomerDTO> CreateCustomer(Customer customerVM)
         {
-            var customer = await customerRepository.GetSingleWhere(x => string.Equals(x.PhoneNumber, customerVM.PhoneNumber, StringComparison.OrdinalIgnoreCase));
+
+            //string query = "SELECT TOP 1 * FROM Customer WHERE PhoneNumber = {0}";
+            //customerRepository.
+            var customer = await customerRepository.GetSingleWhere(x => x.PhoneNumber.Equals(customerVM.PhoneNumber));
 
             if(customer != null)
             {
@@ -57,12 +61,13 @@ namespace DotnetBackend.Service.Implementations
                 FirstName = customerVM.FirstName,
                 LastName = customerVM.LastName,
                 MiddleName = customerVM.MiddleName,
-                PhoneNumber = customerVM.PhoneNumber
+                PhoneNumber = customerVM.PhoneNumber,
+                LGAId = customerVM.LGAId
             };
 
-            await customerRepository.Insert(customer, false);
+            await customerRepository.Insert(customer, true);
 
-            customer = await customerRepository.GetSingleWhere(x => string.Equals(x.PhoneNumber, customerVM.PhoneNumber, StringComparison.OrdinalIgnoreCase));
+            customer = await customerRepository.GetSingleWhere(x => x.PhoneNumber.Equals(customerVM.PhoneNumber));
 
             if(customer != null)
             {
@@ -84,6 +89,7 @@ namespace DotnetBackend.Service.Implementations
                     IsDeleted = customer.IsDeleted,
                     MiddleName = customer.MiddleName,
                     PhoneNumber = customer.PhoneNumber,
+                    LGAId = customer.LGAId,
                     Status = customer.Status
                 };
                 return @return;
@@ -93,9 +99,11 @@ namespace DotnetBackend.Service.Implementations
             }
         }
 
-        public IEnumerable<CustomerDTO> GetActiveCustomers()
+        public async Task<IEnumerable<CustomerDTO>> GetActiveCustomers()
         {
-            return customerRepository.GetActiveCustomers().Select(x => new CustomerDTO()
+            var result = await customerRepository.GetActiveCustomers();
+
+            var @return = result.Select(x => new CustomerDTO()
             {
                 Id = x.Id,
                 FirstName = x.FirstName,
@@ -104,8 +112,11 @@ namespace DotnetBackend.Service.Implementations
                 IsDeleted = x.IsDeleted,
                 MiddleName = x.MiddleName,
                 PhoneNumber = x.PhoneNumber,
-                Status = x.Status
+                Status = x.Status,
+                LGAId = x.LGAId
             });
+
+            return @return;
         }
 
         public IEnumerable<CustomerDTO> GetAllCustomers()
@@ -119,14 +130,20 @@ namespace DotnetBackend.Service.Implementations
                 IsDeleted = x.IsDeleted,
                 MiddleName = x.MiddleName,
                 PhoneNumber = x.PhoneNumber,
-                Status = x.Status
+                Status = x.Status,
+                LGAId = x.LGAId
             });
         }
 
         public async Task<CustomerDTO> GetCustomerByIdAndPhoneNumber(OTPRequest otpRequest)
         {
-            var customer = await customerRepository.GetSingleWhere(x => x.Id == otpRequest.CustomerId && 
-            string.Equals(x.PhoneNumber, otpRequest.PhoneNumber, StringComparison.OrdinalIgnoreCase));
+            var customer = await customerRepository.GetSingleWhere(x => x.Id == otpRequest.CustomerId &&
+            x.PhoneNumber.Equals(otpRequest.PhoneNumber));
+
+            if(customer == null)
+            {
+                throw new ApplicationException("Customer not found");
+            }
 
             var customerDto = new CustomerDTO()
             {

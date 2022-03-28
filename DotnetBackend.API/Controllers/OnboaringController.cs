@@ -1,7 +1,6 @@
 ﻿using DotnetBackend.API.ModelViews;
 using DotnetBackend.Core.DTO;
 using DotnetBackend.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -49,12 +48,12 @@ namespace DotnetBackend.API.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"An error was encountered while executing the action");
-                return StatusCode(404, new { IsSuccess = false, Code = "99", Message = $"Error: {ex.Message}" });
+                return StatusCode(404, new { IsSuccess = false, Code = "99", Message = $"Error: {ex.Message}", ex = ex.InnerException });
             }
         }
 
         [Route("validate-token")]
-        [HttpGet]
+        [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)] // "application/json"
         [Produces(typeof(Response<IEnumerable<CustomerDTO>>))]
         public async Task<IActionResult> ValidateToken(OTPValidateRequest validateRequest)
@@ -86,8 +85,8 @@ namespace DotnetBackend.API.Controllers
             }
         }
 
-        [Route("get-active-customers")]
-        [HttpGet]
+        [Route("resend-otp")]
+        [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)] // "application/json"
         [Produces(typeof(Response<IEnumerable<CustomerDTO>>))]
         public async Task<IActionResult> ResendOtp(OTPRequest request)

@@ -4,7 +4,7 @@ namespace DotnetBackend.Service
 {
     public interface ICustomerService
     {
-        IEnumerable<CustomerDTO> GetActiveCustomers();
+        Task<IEnumerable<CustomerDTO>> GetActiveCustomers();
         IEnumerable<CustomerDTO> GetAllCustomers();
 
         Task<CustomerDTO> GetCustomerByIdAndPhoneNumber(OTPRequest otpRequest);

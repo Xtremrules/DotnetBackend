@@ -23,18 +23,18 @@ namespace DotnetBackend.API.Controllers
         [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)] // "application/json"
         [Produces(typeof(Response<IEnumerable<CustomerDTO>>))]
-        public IActionResult GetActive()
+        public async Task<IActionResult> GetActive()
         {
             try
             {
-                var result = customerService.GetActiveCustomers();
+                var result = await customerService.GetActiveCustomers();
 
                 var response = new Response<IEnumerable<CustomerDTO>>()
                 {
                     Code = "00",
                     Message = "Fetched Successfully",
                     IsSuccess = true,
-                    Data = result
+                    Data = result.ToList()
                 };
 
                 return Ok(response);

@@ -2,11 +2,7 @@
 using DotnetBackend.Core.Entities;
 using DotnetBackend.Data.Repositories;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace DotnetBackend.Service.Implementations
 {
@@ -14,11 +10,14 @@ namespace DotnetBackend.Service.Implementations
     {
 
         private readonly IRepository<OTP> otpRepository;
-        //private readonly ILogger<OTPService> logger;
+        private readonly ILogger<OTPService> logger;
+        private readonly TOKEN_EXPIRATION TOKEN_EXPIRATION;
 
-        public OTPService(IRepository<OTP> otpRepository)
+        public OTPService(IRepository<OTP> otpRepository, ILogger<OTPService> logger, IOptions<TOKEN_EXPIRATION> tOKEN_EXPIRATION)
         {
             this.otpRepository = otpRepository;
+            this.logger = logger;
+            TOKEN_EXPIRATION = tOKEN_EXPIRATION.Value;
         }
 
         public async Task<bool> SendOtp(OTPRequest oTPRequest)
@@ -40,12 +39,23 @@ namespace DotnetBackend.Service.Implementations
 
         public async Task<bool> ValidateOtp(OTPValidateRequest oTPValidateRequest)
         {
-            var otp = await otpRepository.GetSingleWhere(x => string.Equals(x.Code, oTPValidateRequest.code, StringComparison.OrdinalIgnoreCase)
-            && x.CustomerId == oTPValidateRequest.CustomerId);
+            var otp = await otpRepository.GetSingleWhere(x => x.Code.Equals(oTPValidateRequest.code)
+            && x.CustomerId == oTPValidateRequest.CustomerId && x.Status == Core.Status.UNUSED);
 
             if(otp == null)
             {
                 throw new ApplicationException("InValid OTP");
+            }
+            //if(otp.Status == Core.Status.USED)
+            //{
+            //    throw new ApplicationException("This OTP have been used");
+            //}
+
+            var validity = tokenValidity(otp.CreatedDate);
+
+            if (!validity)
+            {
+                throw new ApplicationException("This token have expired");
             }
 
             otp.Status = Core.Status.USED;
@@ -75,6 +85,24 @@ namespace DotnetBackend.Service.Implementations
                 //string regno = RegnoPrefix + "/" + studentCount;
                 return true;
             });
+        }
+
+        private bool tokenValidity(DateTimeOffset tokenTime)
+        {
+            bool result = false;
+
+            var timeEx = int.Parse(TOKEN_EXPIRATION.TIME_IN_MIN);
+
+            DateTimeOffset dateTime = DateTimeOffset.Now;
+
+            tokenTime = tokenTime.AddMinutes(timeEx);
+
+            if(tokenTime >= dateTime)
+            {
+                result = true;
+            }
+
+            return result;
         }
     }
 }

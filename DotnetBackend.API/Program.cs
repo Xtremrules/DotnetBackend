@@ -9,8 +9,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpClient();
-builder.Services.Configure<MetalData>(builder.Configuration.GetSection("MetalData"));
+builder.Services.AddHttpClient(); 
+ builder.Services.Configure<MetalData>(builder.Configuration.GetSection("MetalData"));
+ builder.Services.Configure<TOKEN_EXPIRATION>(builder.Configuration.GetSection("TOKEN_EXPIRATION"));
 
 CompositionRoot.InjectDependencies(builder.Services, builder.Configuration);
 

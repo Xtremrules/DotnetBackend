@@ -12,5 +12,7 @@ namespace DotnetBackend.Core.DTO
         public string MiddleName { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
+        [Required]
+        public long LGAId { get; set; }
     }
 }

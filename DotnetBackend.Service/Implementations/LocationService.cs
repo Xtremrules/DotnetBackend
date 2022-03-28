@@ -1,11 +1,6 @@
 ﻿using DotnetBackend.Core.DTO;
 using DotnetBackend.Core.Entities;
 using DotnetBackend.Data.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotnetBackend.Service.Implementations
 {
@@ -32,7 +27,7 @@ namespace DotnetBackend.Service.Implementations
 
         public LGADTO GetLGAs(long stateId)
         {
-            var lgas = lgaRepo.GetWhere(x => x.StateId == stateId).Select(x => new lga { Id = x.Id, Name = x.Name });
+            var lgas = lgaRepo.GetWhere(x => x.StateId == stateId).Result.Select(x => new lga { Id = x.Id, Name = x.Name });
 
             return new LGADTO { StateId = stateId, Lgas = lgas };
         }
