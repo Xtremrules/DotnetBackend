@@ -41,10 +41,6 @@ namespace DotnetBackend.Data
             SeeData(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-  optionsBuilder.EnableSensitiveDataLogging();
-}
-
         private void SeeData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<State>().HasData(

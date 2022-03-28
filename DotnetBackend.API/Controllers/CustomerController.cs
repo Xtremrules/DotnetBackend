@@ -2,6 +2,7 @@
 using DotnetBackend.Core.DTO;
 using DotnetBackend.Service;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Net.Mime;
 
 namespace DotnetBackend.API.Controllers
@@ -36,6 +37,8 @@ namespace DotnetBackend.API.Controllers
                     IsSuccess = true,
                     Data = result.ToList()
                 };
+                var d = JsonConvert.SerializeObject(response);
+                logger.LogInformation(d);
 
                 return Ok(response);
             }

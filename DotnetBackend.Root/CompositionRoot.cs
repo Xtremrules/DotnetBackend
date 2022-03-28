@@ -20,7 +20,7 @@ namespace DotnetBackend.Root
             // db context 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.EnableSensitiveDataLogging();
+                //options.EnableSensitiveDataLogging();
                 options.UseLazyLoadingProxies()
             .UseSqlServer(config.GetConnectionString("DefaultConnection")).ConfigureWarnings((config) =>
                 config.Ignore(CoreEventId.LazyLoadOnDisposedContextWarning)
