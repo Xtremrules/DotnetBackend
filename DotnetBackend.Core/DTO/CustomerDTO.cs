@@ -10,7 +10,7 @@ namespace DotnetBackend.Core.DTO
     {
         public long Id { get; set; }
         public bool IsDeleted { get; set; }
-        public Status Status;
+        public string Status { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
     }
 }

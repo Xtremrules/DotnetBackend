@@ -10,15 +10,15 @@ namespace DotnetBackend.Data.Repositories.Implementations
         {
         }
 
-        public static Expression<Func<Customer, bool>> IsActive => customer => customer.Status == Core.Status.ACTIVE;
+        public static Expression<Func<Customer, bool>> IsActive => customer => customer.Status.Equals(Core.Constants.ACTIVE) && customer.IsDeleted == false;
 
 
         public async Task<IEnumerable<Customer>> GetActiveCustomers()
         {
-            string query = "SELECT * FROM CUSTOMERS WHERE Status = {0} AND IsDeleted = {1}";
-            var result =  db.Set<Customer>().FromSqlRaw(query, 30, false);
-            return await result.ToListAsync();
-            //return await GetWhere(IsActive);
+            //string query = "SELECT * FROM CUSTOMERS WHERE Status = {0} AND IsDeleted = {1}";
+            //var result =  db.Set<Customer>().FromSqlRaw(query, 30, false);
+            //return await result.ToListAsync();
+            return await GetWhere(IsActive);
         }
 
         public async Task<IEnumerable<Customer>> GetDeletedCustomers()

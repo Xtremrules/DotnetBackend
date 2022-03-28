@@ -65,7 +65,7 @@ namespace DotnetBackend.Service.Implementations
         {
             var encryptCode = await GenerateCodeEncrypt(oTPValidateRequest.code, oTPValidateRequest.PhoneNumber);
             var otp = await otpRepository.GetSingleWhere(x => x.HashOTPCode.Equals(encryptCode)
-            && x.CustomerId == oTPValidateRequest.CustomerId && x.Status == Core.Status.UNUSED);
+            && x.CustomerId == oTPValidateRequest.CustomerId && x.Status.Equals(Core.Constants.UNUSED));
 
             if(otp == null)
             {
@@ -83,7 +83,7 @@ namespace DotnetBackend.Service.Implementations
                 throw new ApplicationException("This token have expired");
             }
 
-            otp.Status = Core.Status.USED;
+            otp.Status = Core.Constants.USED;
 
             await otpRepository.Update(otp, false);
 

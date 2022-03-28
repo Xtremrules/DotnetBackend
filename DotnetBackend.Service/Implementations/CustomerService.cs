@@ -25,7 +25,7 @@ namespace DotnetBackend.Service.Implementations
 
             var customer = await customerRepository.GetById(oTPValidateRequest.CustomerId);
 
-            customer.Status = Core.Status.ACTIVE;
+            customer.Status = Core.Constants.ACTIVE;
 
             await customerRepository.Update(customer, true);
 
