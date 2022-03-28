@@ -4,7 +4,7 @@ namespace DotnetBackend.Core.Entities
 {
     public class OTP: AuditableEntity
     {
-        public string Code { get; set; }
+        public string HashOTPCode { get; set; }
         public Status Status { get; set; } = Status.UNUSED;
 
         public long CustomerId { get; set; }
