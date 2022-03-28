@@ -18,6 +18,7 @@ namespace DotnetBackend.API.Controllers
         {
             this.logger = logger;
             this.customerService = customerService;
+            logger.LogInformation(1, "NLog injected into CustomerController");
         }
 
         [Route("get-active-customers")]
@@ -38,6 +39,7 @@ namespace DotnetBackend.API.Controllers
                     Data = result.ToList()
                 };
                 var d = JsonConvert.SerializeObject(response);
+                logger.LogDebug(d);
                 logger.LogInformation(d);
 
                 return Ok(response);
