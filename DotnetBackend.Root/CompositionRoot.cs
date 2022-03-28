@@ -1,6 +1,8 @@
 ﻿using DotnetBackend.Data;
 using DotnetBackend.Data.Repositories;
 using DotnetBackend.Data.Repositories.Implementations;
+using DotnetBackend.Service;
+using DotnetBackend.Service.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -16,13 +18,22 @@ namespace DotnetBackend.Root
         {
             // inject dependencies here
             // db context 
-            services.AddDbContext<AppDbContext>(options => options.UseLazyLoadingProxies()
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.EnableSensitiveDataLogging();
+                options.UseLazyLoadingProxies()
             .UseSqlServer(config.GetConnectionString("DefaultConnection")).ConfigureWarnings((config) =>
                 config.Ignore(CoreEventId.LazyLoadOnDisposedContextWarning)
-            ));
+            );
+            });
 
             // repositories
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IOTPService, OTPService>();
+            services.AddScoped<ILocationService, LocationService>();
+
         }
     }
 }

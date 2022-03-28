@@ -47,6 +47,7 @@ namespace DotnetBackend.Data.Repositories.Implementations
         {
             if (entity == null) throw new ArgumentNullException("Entity cannot be null");
             entity.CreatedDate = DateTimeOffset.Now;
+            entity.CreatedBy = Core.Constants.SYSTEM_NAME;
             await entities.AddAsync(entity);
             if (save)
                 await db.SaveChangesAsync();

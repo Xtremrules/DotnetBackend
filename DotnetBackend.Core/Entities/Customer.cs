@@ -11,8 +11,8 @@ namespace DotnetBackend.Core.Entities
         public string PhoneNumber { get; set; }
         public bool IsDeleted { get; set; } = false;
         public Status Status = Status.INACTIVE;
-        public int StateId { get; set; }
-        public virtual State State { get; set; }
+        public long LGAId { get; set; }
+        public virtual LGA LGA { get; set; }
         public virtual ICollection<OTP> OTPs { get; set; }
     }
 }
