@@ -1,4 +1,8 @@
 ﻿using DotnetBackend.Core.Entities;
+using DotnetBackend.Core.Entities.Abstracts;
+using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Linq.Expressions;
 
 namespace DotnetBackend.Data.Repositories.Implementations
@@ -9,17 +13,20 @@ namespace DotnetBackend.Data.Repositories.Implementations
         {
         }
 
-        public static Expression<Func<Customer, bool>> IsActive => customer => customer.Status == Core.Status.ACTIVE && customer.IsDeleted == false;
+        public static Expression<Func<Customer, bool>> IsActive => customer => customer.Status == Core.Status.ACTIVE;
 
 
-        public IEnumerable<Customer> GetActiveCustomers()
+        public async Task<IEnumerable<Customer>> GetActiveCustomers()
         {
-            return GetWhere(IsActive);
+            string query = "SELECT * FROM CUSTOMERS WHERE Status = {0} AND IsDeleted = {1}";
+            var result =  db.Set<Customer>().FromSqlRaw(query, 30, false);
+            return await result.ToListAsync();
+            //return await GetWhere(IsActive);
         }
 
-        public IEnumerable<Customer> GetDeletedCustomers()
+        public async Task<IEnumerable<Customer>> GetDeletedCustomers()
         {
-            return GetWhere(x => x.IsDeleted == true);
+            return await GetWhere(x => x.IsDeleted == true);
         }
     }
 }

@@ -133,7 +133,8 @@ namespace DotnetBackend.Data
                 IAuditableEntity entity = entry.Entity as IAuditableEntity;
                 if (entity != null)
                 {
-                    string identityName = Thread.CurrentPrincipal.Identity.Name;
+                    //string identityName = Thread.CurrentPrincipal.Identity.Name;
+                    string identityName = Core.Constants.SYSTEM_NAME;
                     DateTimeOffset now = DateTimeOffset.Now;
 
                     entity.UpdatedBy = identityName;

@@ -31,9 +31,9 @@ namespace DotnetBackend.Data.Repositories.Implementations
         {
             return entities;
         }
-        public IEnumerable<T> GetWhere(Expression<Func<T, bool>> expression)
+        public virtual async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> expression)
         {
-            return entities.Where(expression);
+            return await entities.Where(expression).ToListAsync();
         }
         public async Task<T> GetById(long id)
         {
@@ -41,7 +41,9 @@ namespace DotnetBackend.Data.Repositories.Implementations
         }
         public async Task<T> GetSingleWhere(Expression<Func<T, bool>> expression)
         {
-            return await entities.Where(expression).FirstOrDefaultAsync();
+            return await entities.Where(expression)
+                .OrderByDescending(x => x.CreatedDate)
+                .FirstOrDefaultAsync();
         }
         public async Task Insert(T entity, bool save = true)
         {

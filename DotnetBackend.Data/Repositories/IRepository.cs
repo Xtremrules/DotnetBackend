@@ -7,7 +7,7 @@ namespace DotnetBackend.Data.Repositories
     {
         string TableName { get; }
         IEnumerable<T> GetAll();
-        IEnumerable<T> GetWhere(Expression<Func<T, bool>> expression);
+        Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> expression);
         Task<T> GetById(long id);
         Task<T> GetSingleWhere(Expression<Func<T, bool>> expression);
         Task Insert(T entity, bool save = true);
