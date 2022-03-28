@@ -33,6 +33,7 @@ namespace DotnetBackend.Root
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOTPService, OTPService>();
             services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<IMetalPriceService, MetalPriceService>();
 
         }
     }
